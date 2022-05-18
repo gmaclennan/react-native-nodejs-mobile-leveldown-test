@@ -8,6 +8,7 @@
 
 import React from 'react';
 import type {Node} from 'react';
+import nodejs from 'nodejs-mobile-react-native';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,6 +17,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Alert,
 } from 'react-native';
 
 import {
@@ -58,6 +60,13 @@ const App: () => Node = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  React.useEffect(() => {
+    nodejs.start('main.js');
+    nodejs.channel.addListener('message', msg => {
+      Alert.alert('From node: ' + msg);
+    });
+  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>
